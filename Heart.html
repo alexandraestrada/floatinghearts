@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>floating hearts JS</title>
+<!-- jsAnim -->  
+
+<style>
+.examp {
+position: relative;
+
+height: 2500px;
+width:1000px;
+margin: auto;
+height:1000px;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+#hearts .flake {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    color:#FFFACD;
+    text-shadow: 0 0 0 rgba(255,255,255,1);
+}
+
+</style>
+</head>
+
+<body>
+	<div id="hearts">
+	<div class="examp">
+    </div>
+    </div>
+<script>
+
+var width = getWidth();
+var height = getHeight();
+var flakesCount = 70;
+var moveY = 0.7;
+var moveX = 20;
+var flakes = [];
+
+initAnimation();
+  
+
+function initAnimation(){
+
+setInterval(doAnimation, 10);
+var flakesCounter=0;
+
+
+while (flakesCounter < flakesCount) {
+    var flake = document.createElement("div");
+    flake.className = 'flake';
+    flake.style.fontSize = getRandom(12, 50) + 'px';
+    flake.style.top = getRandom(0, height) + 'px';
+    flake.style.left = getRandom(0, width) + 'px';
+	flake.style.color="#FF0000";
+    flake.innerHTML ="&#10084";
+    newFlake = hearts.appendChild(flake);
+    newFlake.speed = getRandom(1, 100);
+    flakes.push(newFlake);
+    flakesCounter++;
+}
+
+}
+function get(id) {
+    return document.getElementById(id);
+}
+function getWidth() {
+    var x = 0;
+    if (self.innerHeight) {
+        x = self.innerWidth;
+    }
+    else if (document.documentElement && document.documentElement.clientHeight) {
+        x = document.documentElement.clientWidth;
+    }
+    else if (document.body) {
+        x = document.body.clientWidth;
+    }
+    return x;
+}
+
+function getHeight() {
+    var y = 0;
+    if (self.innerHeight) {
+        y = self.innerHeight;
+    }
+    else if (document.documentElement && document.documentElement.clientHeight) {
+        y = document.documentElement.clientHeight;
+    }
+    else if (document.body) {
+        y = document.body.clientHeight;
+    }
+    return y;
+}
+
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function doAnimation() {
+    for (var i = 0; i < flakes.length; i++) {
+        newX = false;
+        newY = false;
+        // Calculate Y position
+        newY = parseFloat(flakes[i].style.top) + (flakes[i].speed / 100) * moveY;
+        if (newY > height) {
+            newY = 0 - parseInt(flakes[i].style.fontSize);
+            // If Y is at bottom, randomize X
+            newX = getRandom(0, width);
+        }
+        // Calculate X position if it hasn't been set randomly
+        if (!newX) newX = parseFloat(flakes[i].style.left) + Math.sin(newY /moveX);
+        if (newX < -20) newX = width + 20;
+        if (newX > width + 20) newX = -20;
+        // Set new position
+        flakes[i].style.top = newY + 'px';
+        flakes[i].style.left = newX + 'px';
+    }
+}
+
+
+	 
+</script>  
+</body>
+</html>
